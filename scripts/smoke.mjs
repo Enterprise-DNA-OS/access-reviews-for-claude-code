@@ -6,7 +6,7 @@ import {spawnSync} from 'node:child_process';
 import {getDb,REPO_ROOT} from './lib/db.mjs';
 import {migrate} from './migrate.mjs';
 import {seed} from './seed.mjs';
-import {run,commands,resolve,date} from './access.mjs';
+import {run,commands,resolve,date,human} from './access.mjs';
 import {parseCsv} from './lib/csv.mjs';
 import {table} from './lib/render.mjs';
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'access-reviews-'));
@@ -25,7 +25,7 @@ try{
  assert.equal((await call('application-progress')).length,3);assert.equal((await call('reviewer-progress'))[0].decided,1);assert.equal((await call('review-history'))[0].decisions,1);assert.equal((await call('campaigns'))[0].total,4);assert.equal((await call('campaign',{campaign:'quarterly'})).reviews.length,4);assert.equal((await call('review-queue')).length,3);
  assert.equal((await call('stale-access')).length,2);assert.equal((await call('leavers')).length,1);assert.equal((await call('privileged-access')).length,3);assert.equal((await call('removals'))[0].removal_verified,false);assert.equal((await call('reviewer-load'))[0].pending,3);assert.equal((await call('weekly-review')).reviews.length,3);assert((await call('compliance')).some(x=>x.rule==='CIS-6.2'));assert.equal((await call('attention')).length,4);assert.equal((await call('activity')).length,0);
  await assert.rejects(()=>resolve(db,'people','lee'),/Ambiguous[\s\S]*Lee/);await assert.rejects(()=>resolve(db,'people',"%' or true --"),/No matching/);assert.equal((await resolve(db,'people','ARIA@EXAMPLE.TEST')).name,'Aria Chen');
- assert.throws(()=>date('2026-02-30'),/real ISO/);assert.throws(()=>date('x'),/real ISO/);
+ assert.match(human([{user_name:'Aria',pending:3}]).split('\n')[1],/^\s*-{2,}(\s+-{2,})*\s*$/);assert.throws(()=>date('2026-02-30'),/real ISO/);assert.throws(()=>date('x'),/real ISO/);
  await fail('people',{nope:'x'},/Unknown option/);await fail('people',{json:'false'},/Invalid/);await fail('close-campaign',{campaign:'quarterly',actor},/pending/);
  const reviews=(await call('campaign',{campaign:'quarterly'})).reviews;const aria=reviews.find(x=>x.email==='aria@example.test');const tama=reviews.find(x=>x.email==='tama@example.test');const lee=reviews.find(x=>x.email==='lee@example.test');
  await fail('assign-review',{review:aria.id,reviewer:'aria@example.test',actor},/Self review/);await call('assign-review',{review:aria.id,reviewer:actor,actor});

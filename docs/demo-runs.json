@@ -1,24 +1,24 @@
 {
-  "captured": "2026-10-23T02:20:34.762Z",
+  "captured": "2026-10-23T02:28:50.169Z",
   "fictional": true,
   "screens": [
     {
       "title": "Departed people with recorded access",
       "ask": "Which departed staff still have access recorded?",
       "command": "npm run access -- leavers",
-      "output": "email             | application | entitlement   | ended_on   | observed_status\n------------------+-------------+---------------+------------+----------------\ntama@example.test | Ledger      | Administrator | 2026-10-11 | present"
+      "output": "email              application  entitlement    ended on    observed status\n-----------------  -----------  -------------  ----------  ---------------\ntama@example.test  Ledger       Administrator  2026-10-11  present"
     },
     {
       "title": "The review backlog",
       "ask": "Who has overdue reviews to complete?",
       "command": "npm run access -- reviewer-load",
-      "output": "reviewer_email     | pending | overdue\n-------------------+---------+--------\nowner@example.test | 3       | 3"
+      "output": "reviewer email      pending  overdue\n------------------  -------  -------\nowner@example.test  3        3"
     },
     {
       "title": "Privileged access",
       "ask": "Which accounts have privileged or unclassified access?",
       "command": "npm run access -- privileged-access",
-      "output": "email                       | application    | entitlement   | privileged | person_status | observed_on\n----------------------------+----------------+---------------+------------+---------------+------------\naria@example.test           | Ledger         | Administrator | true       | active        | 2026-10-21 \ntama@example.test           | Ledger         | Administrator | true       | left          | 2026-10-21 \nlee.contractor@example.test | Legacy Archive | Reader        | unknown    | unknown       | unknown"
+      "output": "email                        application     entitlement    privileged  person status  observed on\n---------------------------  --------------  -------------  ----------  -------------  -----------\naria@example.test            Ledger          Administrator  true        active         2026-10-21 \ntama@example.test            Ledger          Administrator  true        left           2026-10-21 \nlee.contractor@example.test  Legacy Archive  Reader         unknown     unknown        unknown"
     }
   ]
 }

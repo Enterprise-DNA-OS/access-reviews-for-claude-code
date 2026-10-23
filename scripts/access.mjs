@@ -162,7 +162,7 @@ async function importCsv(db,o){
 export function human(value){
  if(!Array.isArray(value))return Object.entries(value).map(([k,v])=>`${k}:\n${typeof v==='object'&&v!==null?human(v):v}`).join('\n');
  if(!value.length)return 'No records.';const keys=Object.keys(value[0]);const str=v=>v===null?'unknown':v instanceof Date?v.toISOString():typeof v==='object'?JSON.stringify(v):String(v??'');
- const widths=keys.map(k=>Math.min(70,Math.max(k.length,...value.map(r=>str(r[k]).length))));const line=r=>keys.map((k,i)=>str(r[k]).replace(/\s+/g,' ').slice(0,widths[i]).padEnd(widths[i])).join(' | ');
- return [line(Object.fromEntries(keys.map(k=>[k,k]))),widths.map(w=>'-'.repeat(w)).join('-+-'),...value.map(line)].join('\n');
+ const widths=keys.map(k=>Math.min(70,Math.max(k.length,...value.map(r=>str(r[k]).length))));const line=r=>keys.map((k,i)=>str(r[k]).replace(/\s+/g,' ').slice(0,widths[i]).padEnd(widths[i])).join('  ');
+ return [line(Object.fromEntries(keys.map(k=>[k,k.replaceAll('_',' ')]))),widths.map(w=>'-'.repeat(w)).join('  '),...value.map(line)].join('\n');
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){let db;try{db=await getDb();const result=await run(db,process.argv.slice(2));console.log(process.argv.includes('--json')?JSON.stringify(result,null,2):human(result));}catch(e){console.error(e.message);process.exitCode=1;}finally{if(db)await db.close();}}
