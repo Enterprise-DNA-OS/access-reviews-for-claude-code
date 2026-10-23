@@ -1,11 +1,37 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "certification-pack",
+    "title": "Access certification evidence pack",
+    "for_each": "select id,name from access.campaigns",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Campaign",
+        "sql": "select name,status,due_on,total,pending,invalid_keeps,removals_unverified from access.campaign_summary where id=$1"
+      },
+      {
+        "title": "Decisions and current evidence",
+        "note": "Historical decisions remain on file. Validity columns reflect the current records, which can change after closure.",
+        "sql": "select email,application,entitlement,reviewer_email,decision,rationale,decided_at,keep_valid,removal_verified from access.review_queue where campaign_id=$1 order by email"
+      },
+      {
+        "title": "Imported source rows",
+        "note": "Source outcomes are retained history, never local certification.",
+        "sql": "select s.source_key,s.payload from access.source_rows s join access.reviews r on r.id=s.review_id where r.campaign_id=$1 order by s.source_key"
+      }
+    ]
+  },
+  {
+    "name": "removal-worklist",
+    "title": "Access removal worklist",
+    "for_each": "select id,name from access.campaigns",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Remove and verify in the owning application",
+        "note": "Internal worklist only. Nothing has been sent or revoked by this document.",
+        "sql": "select q.email,q.application,q.entitlement,q.rationale,q.removal_verified,v.verifier_email,v.checked_on,v.evidence_ref from access.review_queue q left join access.removal_checks v on v.review_id=q.id where q.campaign_id=$1 and q.decision='remove'"
+      }
     ]
   }
 ]

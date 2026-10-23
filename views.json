@@ -1,13 +1,35 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Access Reviews for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Access review week",
+    "subtitle": "Fictional records until replaced with your own evidence",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Campaign progress",
+        "sql": "select * from access.campaign_summary order by due_on"
+      },
+      {
+        "title": "Pending reviews",
+        "sql": "select email,application,entitlement,reviewer_email,overdue_days from access.review_queue where campaign_status='open' and decision='pending' order by overdue_days desc"
+      },
+      {
+        "title": "Removal evidence",
+        "note": "A decision to remove access does not change another system.",
+        "sql": "select email,application,entitlement,removal_verified from access.review_queue where decision='remove'"
+      }
+    ]
+  },
+  {
+    "name": "exceptions",
+    "title": "Account evidence and exceptions",
+    "sections": [
+      {
+        "title": "Recorded findings",
+        "sql": "select rule,email,application,finding from access.compliance_findings f join access.register g on g.id=f.id order by rule,email"
+      },
+      {
+        "title": "Privileged or unclassified access",
+        "sql": "select email,application,entitlement,privileged,observed_on from access.register where privileged is distinct from false and observed_status<>'removed'"
       }
     ]
   }

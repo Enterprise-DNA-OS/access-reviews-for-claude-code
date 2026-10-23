@@ -1,0 +1,3 @@
+Task ID,User Email,User Name,Application,Entitlement,Account,Reviewer Email,Outcome,Custom Field
+DEMO-101,robin@example.test,Robin Singh,Archive,Reader,robin,reviewer@example.test,Certified,"North, South"
+DEMO-102,alex@example.test,Alex Brown,Archive,Administrator,alex-admin,reviewer@example.test,Revoked,Retain source history

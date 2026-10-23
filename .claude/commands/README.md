@@ -1,5 +1,3 @@
-# Slash commands
+# Recurring jobs
 
-One file per recurring job. Each command tells Claude Code exactly which CLI command to run and how to present the result, so the operator never re-explains the job.
-
-Add a command every time the same ask comes twice. Frontmatter needs a `description:` line. The body is the brief.
+Read CLAUDE.md first. Each other Markdown file in this directory is a recipe. There are 35 recipes for the CLI plus customise and new-view. Other coding agents open the same files. Never copy this command library into a runtime-specific folder.
