@@ -96,7 +96,7 @@ npm run docs produces a certification evidence pack and a removal worklist for e
 
 ## Verification and backups
 
-npm test creates a temporary database and exercises all 35 CLI commands, including self-review rejection, stale evidence, changed snapshots, regained access, closure gates, import rollback, repeat import, source preservation, CSV quoting, exports, drafts and HTML rendering. The suite also supports a fresh disposable TEST_DATABASE_URL. The repository workflow runs on Windows, Linux and Postgres 16.
+npm test creates a temporary database and exercises all 35 CLI commands, including self-review rejection, stale evidence, changed snapshots, regained access, closure gates, import rollback, repeat import, source preservation, CSV quoting, exports, drafts and HTML rendering. The suite also supports a fresh disposable TEST_DATABASE_URL. The repository workflow is configured for Windows, Linux and Postgres 16. See docs/verification.md for this build's actual results.
 
 The export command writes all nine record sets as JSON and refuses to overwrite an existing file. This is an interchange copy, not an automatic restore function. Back up the database and evidence separately and rehearse restoration. Keep business imports, exports, drafts and credentials out of Git.
 
